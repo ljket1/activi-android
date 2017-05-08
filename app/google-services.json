@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "639264868994",
+    "firebase_url": "https://activi-86191.firebaseio.com",
+    "project_id": "activi-86191",
+    "storage_bucket": "activi-86191.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:639264868994:android:087dcaa2ba8ab432",
+        "android_client_info": {
+          "package_name": "edu.monash.ljket1.activi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "639264868994-6vlt118iofv2bek1gbdfmnoqsqdl71g1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "edu.monash.ljket1.activi",
+            "certificate_hash": "99a05d5c5371037b1d39a92acc4e45083c17d22a"
+          }
+        },
+        {
+          "client_id": "639264868994-09h19dvsrcefdnuab77pfnfgbmmofv2d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBd_KB5CvVp9GstDWwEc-ClLHfYa-nxxzQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "639264868994-09h19dvsrcefdnuab77pfnfgbmmofv2d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
