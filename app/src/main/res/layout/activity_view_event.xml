@@ -41,7 +41,10 @@
                 <RatingBar
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:numStars="5" />
+                    android:isIndicator="false"
+                    android:numStars="5"
+                    android:rating="4"
+                    android:stepSize="1" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
