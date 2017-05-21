@@ -2,12 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.monash.ljket1.activi">
 
-    <!--
-         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
-         Google Maps Android API v2, but you must specify either coarse or fine
-         location permissions for the 'MyLocation' functionality. 
-    -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <uses-feature android:name="android.hardware.location.gps" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -27,9 +27,19 @@
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".CreateEventActivity"
+            android:label="Create Event"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".SetLocationActivity"
+            android:label="@string/title_activity_set_location" />
+        <activity android:name=".ViewEventActivity"></activity>
     </application>
 
 </manifest>

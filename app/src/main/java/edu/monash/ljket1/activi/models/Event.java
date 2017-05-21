@@ -8,17 +8,21 @@ public class Event {
     public String description;
     public String longitude;
     public String latitude;
+    public String startDate;
+    public String endDate;
     public String host;
 
     public Event() {
 
     }
 
-    public Event(String title, String description, String longitude, String latitude, String host) {
+    public Event(String title, String description, String longitude, String latitude, String startDate, String endDate, String host) {
         this.title = title;
         this.description = description;
         this.longitude = longitude;
         this.latitude = latitude;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.host = host;
     }
 }
