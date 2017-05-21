@@ -38,7 +38,6 @@ import com.squareup.picasso.Picasso;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 import edu.monash.ljket1.activi.models.Event;
 
@@ -145,12 +144,12 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_notifications) {
-
-        } else if (id == R.id.nav_events) {
-
+        switch (item.getItemId()) {
+            case R.id.nav_profile:
+                Intent intent = new Intent(getBaseContext(), ViewProfileActivity.class);
+                intent.putExtra("id", mFirebaseUser.getUid());
+                startActivity(intent);
+                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
