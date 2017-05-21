@@ -40,7 +40,11 @@
             android:name=".SetLocationActivity"
             android:label="@string/title_activity_set_location" />
         <activity android:name=".ViewEventActivity" />
-        <activity android:name=".ViewProfileActivity"></activity>
+        <activity android:name=".ViewProfileActivity" />
+        <activity
+            android:name=".BarcodeActivity"
+            android:label="Barcode"
+            android:parentActivityName=".MainActivity" />
     </application>
 
 </manifest>

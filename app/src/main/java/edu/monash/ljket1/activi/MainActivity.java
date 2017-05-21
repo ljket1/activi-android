@@ -140,15 +140,19 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         switch (item.getItemId()) {
             case R.id.nav_profile:
-                Intent intent = new Intent(getBaseContext(), ViewProfileActivity.class);
-                intent.putExtra("id", mFirebaseUser.getUid());
-                startActivity(intent);
+                Intent profileIntent = new Intent(getBaseContext(), ViewProfileActivity.class);
+                profileIntent.putExtra("id", mFirebaseUser.getUid());
+                startActivity(profileIntent);
+                break;
+            case R.id.nav_barcode:
+                Intent barcodeIntent = new Intent(getBaseContext(), BarcodeActivity.class);
+                barcodeIntent.putExtra("id", mFirebaseUser.getUid());
+                startActivity(barcodeIntent);
                 break;
         }
 
