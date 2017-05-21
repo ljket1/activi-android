@@ -58,7 +58,7 @@ public class SetLocationActivity extends FragmentActivity implements OnMapReadyC
             @Override
             public void onCameraMove() {
                 TextView textView = (TextView) findViewById(R.id.setLocationText);
-                textView.setText("" + mMap.getCameraPosition().target.latitude + ", " + mMap.getCameraPosition().target.longitude);
+                textView.setText("" + mMap.getCameraPosition().target.longitude + ", " + mMap.getCameraPosition().target.latitude);
             }
         });
 
@@ -71,7 +71,7 @@ public class SetLocationActivity extends FragmentActivity implements OnMapReadyC
                     Geocoder geo = new Geocoder(getApplicationContext(), Locale.getDefault());
                     List<Address> addresses = geo.getFromLocation(mPosition.latitude, mPosition.longitude, 1);
                     if (addresses.size() > 0) {
-                        textView.setText("" + mMap.getCameraPosition().target.latitude + ", " + mMap.getCameraPosition().target.longitude + "\n" + addresses.get(0).getAddressLine(0));
+                        textView.setText("" + mMap.getCameraPosition().target.longitude + ", " + mMap.getCameraPosition().target.latitude + "\n" + addresses.get(0).getAddressLine(0));
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

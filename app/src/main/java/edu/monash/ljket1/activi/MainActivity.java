@@ -37,8 +37,6 @@ import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
 
-import java.util.ArrayList;
-
 import edu.monash.ljket1.activi.models.Event;
 
 public class MainActivity extends AppCompatActivity
@@ -52,8 +50,6 @@ public class MainActivity extends AppCompatActivity
     private GoogleApiClient mGoogleApiClient;
     private GoogleMap mMap;
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
-
-    private ArrayList<Event> mEvents;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +82,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getBaseContext(), CreateEventActivity.class);
+                intent.putExtra("id", mFirebaseUser.getUid());
                 startActivity(intent);
             }
         });
@@ -188,7 +185,6 @@ public class MainActivity extends AppCompatActivity
         LatLng pos = new LatLng(-37.8136, 144.9631);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(pos));
 
-        mEvents = new ArrayList<>();
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

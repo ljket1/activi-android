@@ -11,8 +11,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import edu.monash.ljket1.activi.models.Event;
 
 public class CreateEventActivity extends AppCompatActivity  implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
@@ -27,6 +34,16 @@ public class CreateEventActivity extends AppCompatActivity  implements DatePicke
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
+
+        final String userId = getIntent().getStringExtra("id");
+
+        final EditText titleText = (EditText) findViewById(R.id.eventTitleEditText);
+        final EditText descriptionText = (EditText) findViewById(R.id.eventDescriptionEditText);
+        final TextView locationText = (TextView) findViewById(R.id.locationText);
+        final TextView startDateText = (TextView) findViewById(R.id.startDateText);
+        final TextView startTimeText = (TextView) findViewById(R.id.startTimeText);
+        final TextView endDateText = (TextView) findViewById(R.id.endDateText);
+        final TextView endTimeText = (TextView) findViewById(R.id.endTimeText);
 
         Button startDateButton = (Button) findViewById(R.id.startDateButton);
         startDateButton.setOnClickListener(new View.OnClickListener() {
@@ -81,7 +98,16 @@ public class CreateEventActivity extends AppCompatActivity  implements DatePicke
         createEventButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                
+                String[] location = locationText.getText().toString().split(",");
+                Event event = new Event(
+                    titleText.getText().toString(), descriptionText.getText().toString(),
+                        location[1], location[0], startDateText.getText().toString(),
+                        startTimeText.getText().toString(), endDateText.getText().toString(),
+                        endTimeText.getText().toString(), userId
+                );
+                DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("events").push();
+                mDatabase.setValue(event);
+                finish();
             }
         });
     }
@@ -122,7 +148,7 @@ public class CreateEventActivity extends AppCompatActivity  implements DatePicke
                     String latitude = data.getStringExtra("latitude");
                     String longitude = data.getStringExtra("longitude");
                     TextView textView = (TextView) findViewById(R.id.locationText);
-                    textView.setText("Longitude: " + longitude + " Latitude: " + latitude);
+                    textView.setText(longitude + "," + latitude);
                 }
                 break;
         }
