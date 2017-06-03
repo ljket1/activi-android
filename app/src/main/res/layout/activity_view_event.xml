@@ -47,6 +47,13 @@
             android:src="@android:drawable/ic_menu_gallery"
             android:layout_gravity="center"/>
 
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/attendListView">
+
+        </ListView>
+
     </LinearLayout>
 
     <TextView

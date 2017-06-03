@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,15 +24,19 @@ import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 import edu.monash.ljket1.activi.models.Event;
+import edu.monash.ljket1.activi.models.Notifcation;
 import edu.monash.ljket1.activi.models.Profile;
+import edu.monash.ljket1.activi.models.Rating;
 
 public class ViewEventActivity extends AppCompatActivity {
 
     private String eventId;
     private Event event;
+    private ArrayList<ProfileInfo> attendees = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +69,23 @@ public class ViewEventActivity extends AppCompatActivity {
 
         TextView dateTime = (TextView) findViewById(R.id.dateTime);
         dateTime.setText(event.startTime + " " + event.startDate + " - " + event.endTime + " " + event.endDate);
+
+        final ArrayList<String> userIds = new ArrayList<>();
+        DatabaseReference attendence = FirebaseDatabase.getInstance().getReference("events").child(eventId).child("attend");
+        attendence.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot userId : dataSnapshot.getChildren()) {
+                    userIds.add(userId.getKey());
+                }
+                getAttendees(userIds);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         final TextView host = (TextView) findViewById(R.id.host);
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("users").child(event.host);
@@ -118,11 +141,50 @@ public class ViewEventActivity extends AppCompatActivity {
             case IntentIntegrator.REQUEST_CODE:
                 if (resultCode == Activity.RESULT_OK) {
                     IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-                    // TODO: Handle users that don't exist or already attending
-                    DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("events").child(eventId).child("attend").child(result.getContents());
-                    mDatabase.setValue("true");
+                    String user = result.getContents();
+
+                    DatabaseReference eventAttendance = FirebaseDatabase.getInstance().getReference("events").child(eventId).child("attend").child(user);
+                    eventAttendance.setValue("true");
+
+                    Notifcation notifcation = new Notifcation(event.host, eventId);
+                    DatabaseReference notificationDatabase = FirebaseDatabase.getInstance().getReference("users").child(user).child("notifications").push();
+                    notificationDatabase.setValue(notifcation);
                 }
                 break;
         }
+    }
+
+    private void getAttendees(final ArrayList<String> userIds) {
+        DatabaseReference users = FirebaseDatabase.getInstance().getReference("users");
+        users.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot user : dataSnapshot.getChildren()) {
+                    if (userIds.contains(user.getKey())) {
+                        Profile profile = user.getValue(Profile.class);
+                        attendees.add(new ProfileInfo(user.getKey(), profile));
+                    }
+                }
+
+                AttendAdapter adapter = new AttendAdapter(getBaseContext(), attendees);
+                ListView listView = (ListView) findViewById(R.id.attendListView);
+                listView.setAdapter(adapter);
+
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                        ProfileInfo profileItem = (ProfileInfo) adapterView.getItemAtPosition(position);
+
+                        Intent intent = new Intent(getBaseContext(), ViewProfileActivity.class);
+                        intent.putExtra("id", profileItem.getKey());
+                        startActivity(intent);
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
     }
 }

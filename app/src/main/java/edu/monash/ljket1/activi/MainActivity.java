@@ -1,7 +1,9 @@
 package edu.monash.ljket1.activi;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -10,6 +12,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -45,11 +48,9 @@ public class MainActivity extends AppCompatActivity
     // Firebase instance variables
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
-    private DatabaseReference mDatabase;
 
     private GoogleApiClient mGoogleApiClient;
     private GoogleMap mMap;
-    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,12 +61,10 @@ public class MainActivity extends AppCompatActivity
 
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
-        mDatabase = FirebaseDatabase.getInstance().getReference("events");
         if (mFirebaseUser == null) {
             startActivity(new Intent(this, LoginActivity.class));
             finish();
             return;
-        } else {
         }
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -93,8 +92,25 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+        DatabaseReference notifications = FirebaseDatabase.getInstance().getReference("users").child(mFirebaseUser.getUid()).child("notifications");
+        notifications.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                TextView counter = (TextView) navigationView.getMenu().findItem(R.id.nav_notifications).getActionView();
+                counter.setGravity(Gravity.CENTER_VERTICAL);
+                counter.setTypeface(null, Typeface.BOLD);
+                counter.setTextColor(getResources().getColor(R.color.colorAccent));
+                counter.setText(String.valueOf(dataSnapshot.getChildrenCount()));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
 
         View header = navigationView.getHeaderView(0);
         ImageView avatar = (ImageView) header.findViewById(R.id.imageView);
@@ -190,7 +206,8 @@ public class MainActivity extends AppCompatActivity
         LatLng pos = new LatLng(-37.8136, 144.9631);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(pos));
 
-        mDatabase.addValueEventListener(new ValueEventListener() {
+        DatabaseReference events = FirebaseDatabase.getInstance().getReference("events");
+        events.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mMap.clear();
