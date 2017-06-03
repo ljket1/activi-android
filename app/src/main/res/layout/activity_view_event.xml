@@ -55,12 +55,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:textAlignment="center"
-        android:layout_above="@+id/contactButton"
+        android:layout_above="@+id/eventActionButton"
         android:padding="16dp"
         android:text="Hosted by John Doe" />
 
     <Button
-        android:id="@+id/contactButton"
+        android:id="@+id/eventActionButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

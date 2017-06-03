@@ -13,9 +13,9 @@ import java.util.List;
 
 import edu.monash.ljket1.activi.models.Rating;
 
-public class RatingAdapter extends ArrayAdapter<Rating> {
+class RatingAdapter extends ArrayAdapter<Rating> {
 
-    public RatingAdapter(Context context, List<Rating> ratings) {
+    RatingAdapter(Context context, List<Rating> ratings) {
         super(context, 0, ratings);
     }
 

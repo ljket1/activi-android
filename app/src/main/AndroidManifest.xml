@@ -45,6 +45,11 @@
             android:name=".BarcodeActivity"
             android:label="Barcode"
             android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".MyEventsActivity"
+            android:label="My Events"
+            android:parentActivityName=".MainActivity" />
+        <activity android:name=".ScanActivity"></activity>
     </application>
 
 </manifest>

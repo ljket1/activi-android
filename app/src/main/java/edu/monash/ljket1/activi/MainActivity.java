@@ -146,6 +146,11 @@ public class MainActivity extends AppCompatActivity
                 profileIntent.putExtra("id", mFirebaseUser.getUid());
                 startActivity(profileIntent);
                 break;
+            case R.id.nav_events:
+                Intent eventIntent = new Intent(getBaseContext(), MyEventsActivity.class);
+                eventIntent.putExtra("id", mFirebaseUser.getUid());
+                startActivity(eventIntent);
+                break;
             case R.id.nav_barcode:
                 Intent barcodeIntent = new Intent(getBaseContext(), BarcodeActivity.class);
                 barcodeIntent.putExtra("id", mFirebaseUser.getUid());
