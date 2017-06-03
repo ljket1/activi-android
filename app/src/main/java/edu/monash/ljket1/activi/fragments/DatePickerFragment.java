@@ -1,4 +1,4 @@
-package edu.monash.ljket1.activi;
+package edu.monash.ljket1.activi.fragments;
 
 
 import android.app.DatePickerDialog;
@@ -7,6 +7,8 @@ import android.app.DialogFragment;
 import android.os.Bundle;
 
 import java.util.Calendar;
+
+import edu.monash.ljket1.activi.activites.CreateEventActivity;
 
 public class DatePickerFragment extends DialogFragment {
 

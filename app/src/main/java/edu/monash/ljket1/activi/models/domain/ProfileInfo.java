@@ -1,4 +1,4 @@
-package edu.monash.ljket1.activi;
+package edu.monash.ljket1.activi.models.domain;
 
 
 import edu.monash.ljket1.activi.models.Profile;
@@ -7,7 +7,7 @@ public class ProfileInfo {
     private String key;
     private Profile profile;
 
-    ProfileInfo(String key, Profile profile) {
+    public ProfileInfo(String key, Profile profile) {
         this.key = key;
         this.profile = profile;
     }

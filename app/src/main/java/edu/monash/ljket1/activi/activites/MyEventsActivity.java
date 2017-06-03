@@ -1,4 +1,4 @@
-package edu.monash.ljket1.activi;
+package edu.monash.ljket1.activi.activites;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +18,9 @@ import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
+import edu.monash.ljket1.activi.models.domain.EventInfo;
+import edu.monash.ljket1.activi.R;
+import edu.monash.ljket1.activi.adapters.EventAdapter;
 import edu.monash.ljket1.activi.models.Event;
 
 public class MyEventsActivity extends AppCompatActivity {

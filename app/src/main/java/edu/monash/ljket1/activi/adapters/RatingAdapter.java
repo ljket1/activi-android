@@ -1,4 +1,4 @@
-package edu.monash.ljket1.activi;
+package edu.monash.ljket1.activi.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -11,11 +11,12 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import edu.monash.ljket1.activi.R;
 import edu.monash.ljket1.activi.models.Rating;
 
-class RatingAdapter extends ArrayAdapter<Rating> {
+public class RatingAdapter extends ArrayAdapter<Rating> {
 
-    RatingAdapter(Context context, List<Rating> ratings) {
+    public RatingAdapter(Context context, List<Rating> ratings) {
         super(context, 0, ratings);
     }
 

@@ -1,9 +1,8 @@
-package edu.monash.ljket1.activi;
+package edu.monash.ljket1.activi.activites;
 
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -40,6 +39,8 @@ import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
 
+import edu.monash.ljket1.activi.models.domain.EventInfo;
+import edu.monash.ljket1.activi.R;
 import edu.monash.ljket1.activi.models.Event;
 
 public class MainActivity extends AppCompatActivity

@@ -1,4 +1,4 @@
-package edu.monash.ljket1.activi;
+package edu.monash.ljket1.activi.fragments;
 
 
 import android.app.Dialog;
@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.text.format.DateFormat;
 
 import java.util.Calendar;
+
+import edu.monash.ljket1.activi.activites.CreateEventActivity;
 
 public class TimePickerFragment extends DialogFragment {
 

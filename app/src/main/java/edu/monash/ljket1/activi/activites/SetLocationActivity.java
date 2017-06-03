@@ -1,4 +1,4 @@
-package edu.monash.ljket1.activi;
+package edu.monash.ljket1.activi.activites;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -19,6 +19,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
 import java.util.Locale;
+
+import edu.monash.ljket1.activi.R;
 
 public class SetLocationActivity extends FragmentActivity implements OnMapReadyCallback {
 

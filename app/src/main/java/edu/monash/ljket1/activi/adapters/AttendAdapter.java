@@ -1,4 +1,4 @@
-package edu.monash.ljket1.activi;
+package edu.monash.ljket1.activi.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -10,12 +10,13 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import edu.monash.ljket1.activi.models.domain.ProfileInfo;
+import edu.monash.ljket1.activi.R;
 import edu.monash.ljket1.activi.models.Profile;
-import edu.monash.ljket1.activi.models.Rating;
 
-class AttendAdapter extends ArrayAdapter<ProfileInfo> {
+public class AttendAdapter extends ArrayAdapter<ProfileInfo> {
 
-    AttendAdapter(Context context, List<ProfileInfo> attendees) {
+    public AttendAdapter(Context context, List<ProfileInfo> attendees) {
         super(context, 0, attendees);
     }
 

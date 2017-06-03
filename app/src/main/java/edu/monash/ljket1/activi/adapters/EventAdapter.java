@@ -1,4 +1,4 @@
-package edu.monash.ljket1.activi;
+package edu.monash.ljket1.activi.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -10,12 +10,13 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import edu.monash.ljket1.activi.models.domain.EventInfo;
+import edu.monash.ljket1.activi.R;
 import edu.monash.ljket1.activi.models.Event;
-import edu.monash.ljket1.activi.models.Rating;
 
-class EventAdapter extends ArrayAdapter<EventInfo> {
+public class EventAdapter extends ArrayAdapter<EventInfo> {
 
-    EventAdapter(Context context, List<EventInfo> events) {
+    public EventAdapter(Context context, List<EventInfo> events) {
         super(context, 0, events);
     }
 

@@ -1,10 +1,9 @@
-package edu.monash.ljket1.activi;
+package edu.monash.ljket1.activi.activites;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog;
-import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,10 +14,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import edu.monash.ljket1.activi.fragments.DatePickerFragment;
+import edu.monash.ljket1.activi.R;
+import edu.monash.ljket1.activi.fragments.TimePickerFragment;
 import edu.monash.ljket1.activi.models.Event;
 
 public class CreateEventActivity extends AppCompatActivity  implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {

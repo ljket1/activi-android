@@ -1,4 +1,4 @@
-package edu.monash.ljket1.activi;
+package edu.monash.ljket1.activi.activites;
 
 import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +9,8 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
+
+import edu.monash.ljket1.activi.R;
 
 import static android.graphics.Color.BLACK;
 

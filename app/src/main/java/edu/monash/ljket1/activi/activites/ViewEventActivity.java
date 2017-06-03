@@ -1,4 +1,4 @@
-package edu.monash.ljket1.activi;
+package edu.monash.ljket1.activi.activites;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -27,10 +27,12 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import edu.monash.ljket1.activi.models.domain.ProfileInfo;
+import edu.monash.ljket1.activi.R;
+import edu.monash.ljket1.activi.adapters.AttendAdapter;
 import edu.monash.ljket1.activi.models.Event;
 import edu.monash.ljket1.activi.models.Notifcation;
 import edu.monash.ljket1.activi.models.Profile;
-import edu.monash.ljket1.activi.models.Rating;
 
 public class ViewEventActivity extends AppCompatActivity {
 
