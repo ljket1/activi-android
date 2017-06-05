@@ -1,8 +1,8 @@
 package edu.monash.ljket1.activi.activites;
 
 import android.graphics.Bitmap;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
 import com.google.zxing.BarcodeFormat;
@@ -11,8 +11,6 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 
 import edu.monash.ljket1.activi.R;
-
-import static android.graphics.Color.BLACK;
 
 public class BarcodeActivity extends AppCompatActivity {
 

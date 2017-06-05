@@ -27,12 +27,12 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import edu.monash.ljket1.activi.models.domain.ProfileInfo;
 import edu.monash.ljket1.activi.R;
 import edu.monash.ljket1.activi.adapters.AttendAdapter;
 import edu.monash.ljket1.activi.models.Event;
-import edu.monash.ljket1.activi.models.Notifcation;
+import edu.monash.ljket1.activi.models.Notification;
 import edu.monash.ljket1.activi.models.Profile;
+import edu.monash.ljket1.activi.models.domain.ProfileInfo;
 
 public class ViewEventActivity extends AppCompatActivity {
 
@@ -148,7 +148,7 @@ public class ViewEventActivity extends AppCompatActivity {
                     DatabaseReference eventAttendance = FirebaseDatabase.getInstance().getReference("events").child(eventId).child("attend").child(user);
                     eventAttendance.setValue("true");
 
-                    Notifcation notifcation = new Notifcation(event.host, eventId);
+                    Notification notifcation = new Notification(event.host, eventId);
                     DatabaseReference notificationDatabase = FirebaseDatabase.getInstance().getReference("users").child(user).child("notifications").push();
                     notificationDatabase.setValue(notifcation);
                 }

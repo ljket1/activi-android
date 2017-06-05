@@ -49,7 +49,10 @@
             android:name=".activites.MyEventsActivity"
             android:label="My Events"
             android:parentActivityName=".activites.MainActivity" />
-        <activity android:name=".activites.ScanActivity"></activity>
+        <activity android:name=".activites.ScanActivity" />
+        <activity android:name=".activites.NotificationsActivity" />
+        <activity android:name=".activites.RateActivity" />
+        <activity android:name=".activites.CreateProfileActivity"></activity>
     </application>
 
 </manifest>

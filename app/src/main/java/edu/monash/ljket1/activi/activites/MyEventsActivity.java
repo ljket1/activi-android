@@ -1,8 +1,8 @@
 package edu.monash.ljket1.activi.activites;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -18,10 +18,10 @@ import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
-import edu.monash.ljket1.activi.models.domain.EventInfo;
 import edu.monash.ljket1.activi.R;
 import edu.monash.ljket1.activi.adapters.EventAdapter;
 import edu.monash.ljket1.activi.models.Event;
+import edu.monash.ljket1.activi.models.domain.EventInfo;
 
 public class MyEventsActivity extends AppCompatActivity {
 

@@ -10,9 +10,9 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import edu.monash.ljket1.activi.models.domain.ProfileInfo;
 import edu.monash.ljket1.activi.R;
 import edu.monash.ljket1.activi.models.Profile;
+import edu.monash.ljket1.activi.models.domain.ProfileInfo;
 
 public class AttendAdapter extends ArrayAdapter<ProfileInfo> {
 

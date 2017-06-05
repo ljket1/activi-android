@@ -4,8 +4,6 @@ import com.google.firebase.database.IgnoreExtraProperties;
 
 import org.parceler.Parcel;
 
-import java.util.ArrayList;
-
 @Parcel
 @IgnoreExtraProperties
 public class Profile {

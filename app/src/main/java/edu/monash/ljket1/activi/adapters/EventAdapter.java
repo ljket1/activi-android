@@ -10,9 +10,9 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import edu.monash.ljket1.activi.models.domain.EventInfo;
 import edu.monash.ljket1.activi.R;
 import edu.monash.ljket1.activi.models.Event;
+import edu.monash.ljket1.activi.models.domain.EventInfo;
 
 public class EventAdapter extends ArrayAdapter<EventInfo> {
 

@@ -39,9 +39,9 @@ import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
 
-import edu.monash.ljket1.activi.models.domain.EventInfo;
 import edu.monash.ljket1.activi.R;
 import edu.monash.ljket1.activi.models.Event;
+import edu.monash.ljket1.activi.models.domain.EventInfo;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener, OnMapReadyCallback {
@@ -156,12 +156,15 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         switch (item.getItemId()) {
             case R.id.nav_profile:
                 Intent profileIntent = new Intent(getBaseContext(), ViewProfileActivity.class);
                 profileIntent.putExtra("id", mFirebaseUser.getUid());
                 startActivity(profileIntent);
+                break;
+            case R.id.nav_notifications:
+                Intent notificationsIntent = new Intent(getBaseContext(), NotificationsActivity.class);
+                startActivity(notificationsIntent);
                 break;
             case R.id.nav_events:
                 Intent eventIntent = new Intent(getBaseContext(), MyEventsActivity.class);
