@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -28,11 +29,12 @@ public class NotificationAdapter extends ArrayAdapter<Notification> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_notification, parent, false);
         }
 
-        TextView title = (TextView) convertView.findViewById(R.id.notificationTitle);
-        TextView subtitle = (TextView) convertView.findViewById(R.id.notificationSubtitle);
+        ImageView category = (ImageView) convertView.findViewById(R.id.notificationCategoryImageView);
+        //TODO
+
+        TextView name = (TextView) convertView.findViewById(R.id.notificationNameTextView);
         if (notification != null) {
-            title.setText(notification.eventTitle);
-            subtitle.setText("Please leave a rating for " + notification.userId);
+            name.setText(notification.name);
         }
 
         return convertView;

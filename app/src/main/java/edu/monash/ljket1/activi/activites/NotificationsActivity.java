@@ -51,7 +51,6 @@ public class NotificationsActivity extends AppCompatActivity {
 
                         Intent intent = new Intent(getBaseContext(), RateActivity.class);
                         intent.putExtra("profileId", notification.userId);
-                        intent.putExtra("eventTitle", notification.eventTitle);
                         startActivity(intent);
                     }
                 });

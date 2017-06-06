@@ -13,11 +13,10 @@
 
         <ImageView
             android:id="@+id/profileImageView"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
             android:layout_gravity="center"
-            android:layout_margin="16dp"
-            android:src="@drawable/ic_menu_gallery" />
+            android:layout_margin="16dp"/>
 
         <TextView
             android:id="@+id/profileNameText"

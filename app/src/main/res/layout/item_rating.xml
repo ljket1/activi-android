@@ -4,15 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+
+    <me.zhanghai.android.materialratingbar.MaterialRatingBar
         android:id="@+id/ratingItemRating"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="5 stars"/>
+        android:layout_marginStart="64dp"
+        android:layout_marginEnd="64dp"
+        android:layout_height="32dp"/>
 
     <TextView
         android:id="@+id/ratingItemComment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="This guy is cool"/>
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:padding="8dp" />
 </LinearLayout>

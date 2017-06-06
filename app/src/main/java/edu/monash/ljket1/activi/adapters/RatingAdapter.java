@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import java.util.List;
@@ -28,10 +29,10 @@ public class RatingAdapter extends ArrayAdapter<Rating> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_rating, parent, false);
         }
 
-        TextView ratingText = (TextView) convertView.findViewById(R.id.ratingItemRating);
+        RatingBar ratingText = (RatingBar) convertView.findViewById(R.id.ratingItemRating);
         TextView commentText = (TextView) convertView.findViewById(R.id.ratingItemComment);
         if (rating != null) {
-            ratingText.setText(rating.rating);
+            ratingText.setRating(Float.parseFloat(rating.rating));
             commentText.setText(rating.comment);
         }
 

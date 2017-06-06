@@ -8,14 +8,17 @@ import org.parceler.Parcel;
 @IgnoreExtraProperties
 public class Notification {
     public String userId;
-    public String eventTitle;
+    public String name;
+    public String category;
+
 
     public Notification(){
     }
 
-    public Notification(String userId, String eventTitle) {
+    public Notification(String userId, String name, String category) {
         this.userId = userId;
-        this.eventTitle = eventTitle;
+        this.name = name;
+        this.category = category;
     }
 
 }

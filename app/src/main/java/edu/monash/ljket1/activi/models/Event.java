@@ -16,12 +16,13 @@ public class Event {
     public String endTime;
     public String endDate;
     public String host;
+    public String category;
 
     public Event() {
 
     }
 
-    public Event(String title, String description, String longitude, String latitude, String startDate, String startTime, String endDate, String endTime, String host) {
+    public Event(String title, String description, String longitude, String latitude, String startDate, String startTime, String endDate, String endTime, String host, String category) {
         this.title = title;
         this.description = description;
         this.longitude = longitude;
@@ -31,5 +32,6 @@ public class Event {
         this.endDate = endDate;
         this.endTime = endTime;
         this.host = host;
+        this.category = category;
     }
 }

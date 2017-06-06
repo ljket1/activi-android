@@ -40,6 +40,7 @@ dependencies {
     compile 'com.journeyapps:zxing-android-integration:2.3.0@aar'
     compile 'com.google.zxing:core:3.2.1'
     compile 'com.jakewharton:butterknife:8.6.0'
+    compile 'me.zhanghai.android.materialratingbar:library:1.0.2'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'org.parceler:parceler:1.1.6'

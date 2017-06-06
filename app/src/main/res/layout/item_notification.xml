@@ -1,20 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp">
+    android:layout_height="64dp">
 
-    <TextView
-        android:id="@+id/notificationTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textStyle="bold" />
+    <ImageView
+        android:id="@+id/notificationCategoryImageView"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_margin="8dp"/>
 
-    <TextView
-        android:id="@+id/notificationSubtitle"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text=""/>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="8dp"
+            android:text="Please rate your recent experience with:"/>
+
+        <TextView
+            android:id="@+id/notificationNameTextView"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="0dp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
 </LinearLayout>

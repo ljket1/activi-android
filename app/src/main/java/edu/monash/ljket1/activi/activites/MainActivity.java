@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity
                 startActivity(profileIntent);
                 break;
             case R.id.nav_notifications:
-                Intent notificationsIntent = new Intent(getBaseContext(), NotificationsActivity.class);
+                Intent notificationsIntent = new Intent(getBaseContext(), RateActivity.class);
                 startActivity(notificationsIntent);
                 break;
             case R.id.nav_events:

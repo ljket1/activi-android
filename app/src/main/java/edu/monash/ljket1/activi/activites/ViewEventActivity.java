@@ -143,14 +143,26 @@ public class ViewEventActivity extends AppCompatActivity {
             case IntentIntegrator.REQUEST_CODE:
                 if (resultCode == Activity.RESULT_OK) {
                     IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-                    String user = result.getContents();
+                    final String user = result.getContents();
 
                     DatabaseReference eventAttendance = FirebaseDatabase.getInstance().getReference("events").child(eventId).child("attend").child(user);
                     eventAttendance.setValue("true");
 
-                    Notification notifcation = new Notification(event.host, eventId);
-                    DatabaseReference notificationDatabase = FirebaseDatabase.getInstance().getReference("users").child(user).child("notifications").push();
-                    notificationDatabase.setValue(notifcation);
+                    DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(event.host);
+                    userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            Profile profile = dataSnapshot.getValue(Profile.class);
+                            Notification notifcation = new Notification(event.host, profile.name, event.category);
+                            DatabaseReference notificationDatabase = FirebaseDatabase.getInstance().getReference("users").child(user).child("notifications").push();
+                            notificationDatabase.setValue(notifcation);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
                 }
                 break;
         }

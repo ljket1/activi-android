@@ -7,14 +7,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -46,6 +52,18 @@ public class ViewProfileActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 final Profile profile = dataSnapshot.getValue(Profile.class);
+
+                final ImageView profileImageView = (ImageView) findViewById(R.id.profileImageView);
+                if (profile.image.contains("gs://")) {
+                    FirebaseStorage.getInstance().getReference(profile.image).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            Picasso.with(ViewProfileActivity.this).load(uri).into(profileImageView);
+                        }
+                    });
+                } else {
+                    Picasso.with(ViewProfileActivity.this).load(profile.image).into(profileImageView);
+                }
 
                 TextView profileNameText = (TextView) findViewById(R.id.profileNameText);
                 profileNameText.setText(profile.name);
