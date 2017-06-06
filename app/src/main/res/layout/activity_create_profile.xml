@@ -15,7 +15,7 @@
         android:padding="8dp">
 
         <ImageView
-            android:id="@+id/profileImageView"
+            android:id="@+id/createProfileImageView"
             android:layout_width="128dp"
             android:layout_height="128dp"
             android:layout_gravity="center"
@@ -33,36 +33,39 @@
             android:textSize="10sp" />
 
         <TextView
-            android:id="@+id/createNameText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Name: " />
 
         <EditText
+            android:id="@+id/createNameEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="textPersonName"
             android:textAppearance="@android:style/TextAppearance.Material.Small.Inverse" />
 
         <TextView
-            android:id="@+id/createNumberText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Number: " />
 
-        <EditText
+        <edu.monash.ljket1.activi.widgets.PrefixedEditText
+            android:id="@+id/createNumberEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="phone"
             android:textAppearance="@android:style/TextAppearance.Material.Small.Inverse" />
 
         <TextView
-            android:id="@+id/createEmailText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Email: " />
 
         <EditText
+            android:id="@+id/createEmailEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="textWebEmailAddress"
             android:textAppearance="@android:style/TextAppearance.Material.Small.Inverse" />
 
     </LinearLayout>
