@@ -12,18 +12,18 @@ import android.widget.TextView;
 import java.util.List;
 
 import edu.monash.ljket1.activi.R;
-import edu.monash.ljket1.activi.models.Notification;
+import edu.monash.ljket1.activi.models.domain.NotificationInfo;
 
-public class NotificationAdapter extends ArrayAdapter<Notification> {
+public class NotificationAdapter extends ArrayAdapter<NotificationInfo> {
 
-    public NotificationAdapter(Context context, List<Notification> notifications) {
+    public NotificationAdapter(Context context, List<NotificationInfo> notifications) {
         super(context, 0, notifications);
     }
 
     @NonNull
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-        Notification notification = getItem(position);
+        NotificationInfo notification = getItem(position);
 
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_notification, parent, false);
@@ -34,7 +34,7 @@ public class NotificationAdapter extends ArrayAdapter<Notification> {
 
         TextView name = (TextView) convertView.findViewById(R.id.notificationNameTextView);
         if (notification != null) {
-            name.setText(notification.name);
+            name.setText(notification.getNotification().name);
         }
 
         return convertView;

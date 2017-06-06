@@ -14,6 +14,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -44,6 +45,7 @@ public class RateActivity extends AppCompatActivity {
     EditText comment;
 
     private String profileId;
+    private String notificationId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +58,9 @@ public class RateActivity extends AppCompatActivity {
             getSupportActionBar().setTitle("Rate");
         }
 
-        profileId = getIntent().getStringExtra("id");
+        profileId = getIntent().getStringExtra("profileId");
+        notificationId = getIntent().getStringExtra("notificationId");
+
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(profileId);
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -96,9 +100,14 @@ public class RateActivity extends AppCompatActivity {
 
     @OnClick(R.id.rateRateButton)
     public void rate() {
+        // Create Rating
         Rating rating = new Rating(String.valueOf(ratingBar.getRating()), comment.getText().toString());
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("users").child(profileId).child("ratings").push();
         mDatabase.setValue(rating);
+
+        // Delete Notification
+        DatabaseReference notificationRef = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("notifications").child(notificationId);
+        notificationRef.setValue(null);
         finish();
     }
 }

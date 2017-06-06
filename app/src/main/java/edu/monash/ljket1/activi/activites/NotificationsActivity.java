@@ -19,10 +19,11 @@ import java.util.ArrayList;
 import edu.monash.ljket1.activi.R;
 import edu.monash.ljket1.activi.adapters.NotificationAdapter;
 import edu.monash.ljket1.activi.models.Notification;
+import edu.monash.ljket1.activi.models.domain.NotificationInfo;
 
 public class NotificationsActivity extends AppCompatActivity {
 
-    private ArrayList<Notification> notifications = new ArrayList<>();
+    private ArrayList<NotificationInfo> notifications = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +37,7 @@ public class NotificationsActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot notificationSnapshot : dataSnapshot.getChildren()) {
-                    Notification notification = notificationSnapshot.getValue(Notification.class);
+                    NotificationInfo notification = new NotificationInfo(notificationSnapshot.getKey(), notificationSnapshot.getValue(Notification.class));
                     notifications.add(notification);
                 }
 
@@ -47,10 +48,11 @@ public class NotificationsActivity extends AppCompatActivity {
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                        Notification notification = (Notification) adapterView.getItemAtPosition(position);
+                        NotificationInfo notification = (NotificationInfo) adapterView.getItemAtPosition(position);
 
                         Intent intent = new Intent(getBaseContext(), RateActivity.class);
-                        intent.putExtra("profileId", notification.userId);
+                        intent.putExtra("notificationId", notification.getKey());
+                        intent.putExtra("profileId", notification.getNotification().userId);
                         startActivity(intent);
                     }
                 });
