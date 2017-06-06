@@ -2,6 +2,7 @@ package edu.monash.ljket1.activi.activites;
 
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -28,6 +29,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -35,12 +37,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
 
 import edu.monash.ljket1.activi.R;
 import edu.monash.ljket1.activi.models.Event;
+import edu.monash.ljket1.activi.models.Profile;
 import edu.monash.ljket1.activi.models.domain.EventInfo;
 
 public class MainActivity extends AppCompatActivity
@@ -52,6 +57,10 @@ public class MainActivity extends AppCompatActivity
 
     private GoogleApiClient mGoogleApiClient;
     private GoogleMap mMap;
+
+    private NavigationView navigationView;
+
+    private static final String IMAGE_URL = "gs://activi-86191.appspot.com/profiles";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +77,10 @@ public class MainActivity extends AppCompatActivity
             return;
         }
 
-        checkProfileExists();
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        loadProfile();
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, this)
@@ -95,10 +107,6 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-
         DatabaseReference notifications = FirebaseDatabase.getInstance().getReference("users").child(mFirebaseUser.getUid()).child("notifications");
         notifications.addValueEventListener(new ValueEventListener() {
             @Override
@@ -114,14 +122,6 @@ public class MainActivity extends AppCompatActivity
             public void onCancelled(DatabaseError databaseError) {
             }
         });
-
-        View header = navigationView.getHeaderView(0);
-        ImageView avatar = (ImageView) header.findViewById(R.id.imageView);
-        Picasso.with(this).load(mFirebaseUser.getPhotoUrl()).into(avatar);
-        TextView name = (TextView) header.findViewById(R.id.name);
-        name.setText(mFirebaseUser.getDisplayName());
-        TextView email = (TextView) header.findViewById(R.id.email);
-        email.setText(mFirebaseUser.getEmail());
     }
 
     @Override
@@ -232,7 +232,7 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    private void checkProfileExists() {
+    private void loadProfile() {
         DatabaseReference profileRef = FirebaseDatabase.getInstance().getReference("users");
         profileRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -240,6 +240,25 @@ public class MainActivity extends AppCompatActivity
                 if (!dataSnapshot.hasChild(mFirebaseUser.getUid())) {
                     startActivity(new Intent(getBaseContext(), CreateProfileActivity.class));
                     finish();
+                } else {
+                    Profile profile = dataSnapshot.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).getValue(Profile.class);
+                    View header = navigationView.getHeaderView(0);
+                    final ImageView avatar = (ImageView) header.findViewById(R.id.imageView);
+                    if (profile.image.contains("gs://")) {
+                        StorageReference imageRef = FirebaseStorage.getInstance().getReferenceFromUrl(IMAGE_URL);
+                        imageRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid() + ".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                Picasso.with(MainActivity.this).load(uri).into(avatar);
+                            }
+                        });
+                    } else {
+                        Picasso.with(MainActivity.this).load(profile.image).into(avatar);
+                    }
+                    TextView name = (TextView) header.findViewById(R.id.name);
+                    name.setText(profile.name);
+                    TextView email = (TextView) header.findViewById(R.id.email);
+                    email.setText(profile.email);
                 }
             }
 
