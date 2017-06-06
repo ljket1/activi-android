@@ -32,7 +32,7 @@ public class NotificationAdapter extends ArrayAdapter<Notification> {
         TextView subtitle = (TextView) convertView.findViewById(R.id.notificationSubtitle);
         if (notification != null) {
             title.setText(notification.eventTitle);
-            subtitle.setText("Please leave a rating for " + notification.userName);
+            subtitle.setText("Please leave a rating for " + notification.userId);
         }
 
         return convertView;

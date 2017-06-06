@@ -119,6 +119,9 @@ public class CreateEventActivity extends AppCompatActivity  implements DatePicke
             case START:
                 TextView startDateTextView = (TextView) findViewById(R.id.startDateText);
                 startDateTextView.setText(day + "/" + (month+1) + "/" + year );
+                currentTimePicker = START;
+                DialogFragment timeFragment = new TimePickerFragment();
+                timeFragment.show(getFragmentManager(), "startTimePicker");
                 break;
             case END:
                 TextView endDateTextView = (TextView) findViewById(R.id.endDateText);

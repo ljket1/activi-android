@@ -9,56 +9,49 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="8dp">
 
-        <LinearLayout
+
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="5">
+            android:text="Event Title: " />
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"/>
+        <EditText
+            android:id="@+id/eventTitleEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:textAppearance="@android:style/TextAppearance.Material.Small.Inverse" />
 
-            <EditText
-                android:id="@+id/eventTitleEditText"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="3"
-                android:gravity="center"
-                android:hint="Event Title"
-                android:inputType="textPersonName"
-                android:textAlignment="center" />
 
-        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Description: " />
 
         <EditText
             android:id="@+id/eventDescriptionEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            android:hint="Event Description"
-            android:textAlignment="center"
-            android:textSize="14sp" />
+            android:textAppearance="@android:style/TextAppearance.Material.Small.Inverse" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="4">
+            android:weightSum="2">
 
             <TextView
                 android:id="@+id/startDateText"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:text="Start Date"
+                android:gravity="center"
+                android:paddingEnd="12dp"
                 android:paddingStart="12dp"
-                android:paddingEnd="12dp"/>
+                android:text="Start Date" />
 
             <Button
                 android:id="@+id/startDateButton"
@@ -67,13 +60,21 @@
                 android:layout_weight="1"
                 android:text="Choose Date" />
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
             <TextView
                 android:id="@+id/startTimeText"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:gravity="center"
                 android:layout_weight="1"
-                android:text="Start Time"/>
+                android:gravity="center"
+                android:text="Start Time" />
 
             <Button
                 android:id="@+id/startTimeButton"
@@ -81,8 +82,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Choose Time" />
-
         </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -96,9 +97,9 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="End Date"
+                android:paddingEnd="12dp"
                 android:paddingStart="12dp"
-                android:paddingEnd="12dp"/>
+                android:text="End Date" />
 
             <Button
                 android:id="@+id/endDateButton"
@@ -111,9 +112,9 @@
                 android:id="@+id/endTimeText"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:gravity="center"
                 android:layout_weight="1"
-                android:text="End Time"/>
+                android:gravity="center"
+                android:text="End Time" />
 
             <Button
                 android:id="@+id/endTimeButton"
@@ -136,9 +137,9 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="Location:"
+                android:paddingEnd="12dp"
                 android:paddingStart="12dp"
-                android:paddingEnd="12dp"/>
+                android:text="Location:" />
 
             <TextView
                 android:id="@+id/locationText"
@@ -146,7 +147,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Unknown"/>
+                android:text="Unknown" />
 
             <Button
                 android:id="@+id/eventSetLocationButton"

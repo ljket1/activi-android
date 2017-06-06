@@ -68,6 +68,8 @@ public class MainActivity extends AppCompatActivity
             return;
         }
 
+        checkProfileExists();
+
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API)
@@ -226,6 +228,23 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });
+    }
+
+    private void checkProfileExists() {
+        DatabaseReference profileRef = FirebaseDatabase.getInstance().getReference("users");
+        profileRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.hasChild(mFirebaseUser.getUid())) {
+                    startActivity(new Intent(getBaseContext(), CreateProfileActivity.class));
+                    finish();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
             }
         });
     }
