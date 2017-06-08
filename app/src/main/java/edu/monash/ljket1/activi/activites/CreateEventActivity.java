@@ -8,9 +8,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -22,7 +25,7 @@ import edu.monash.ljket1.activi.fragments.DatePickerFragment;
 import edu.monash.ljket1.activi.fragments.TimePickerFragment;
 import edu.monash.ljket1.activi.models.Event;
 
-public class CreateEventActivity extends AppCompatActivity  implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+public class CreateEventActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     public final static int LOCATION_REQUEST_CODE = 1;
     private final static String START = "start";
@@ -45,6 +48,19 @@ public class CreateEventActivity extends AppCompatActivity  implements DatePicke
         final TextView startTimeText = (TextView) findViewById(R.id.startTimeText);
         final TextView endDateText = (TextView) findViewById(R.id.endDateText);
         final TextView endTimeText = (TextView) findViewById(R.id.endTimeText);
+
+        Spinner spinner = (Spinner) findViewById(R.id.createEventCategory);
+        String[] categories = new String[]{
+                "Sport",
+                "Arts",
+                "Outdoor Recreation",
+                "Indoor Leisure",
+                "Food",
+                "Other"
+        };
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, categories);
+        spinner.setAdapter(adapter);
+
 
         Button startDateButton = (Button) findViewById(R.id.startDateButton);
         startDateButton.setOnClickListener(new View.OnClickListener() {
@@ -101,10 +117,10 @@ public class CreateEventActivity extends AppCompatActivity  implements DatePicke
             public void onClick(View view) {
                 String[] location = locationText.getText().toString().split(",");
                 Event event = new Event(
-                    titleText.getText().toString(), descriptionText.getText().toString(),
+                        titleText.getText().toString(), descriptionText.getText().toString(),
                         location[1], location[0], startDateText.getText().toString(),
                         startTimeText.getText().toString(), endDateText.getText().toString(),
-                        endTimeText.getText().toString(), userId
+                        endTimeText.getText().toString(), userId, "2"
                 );
                 DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("events").push();
                 mDatabase.setValue(event);
@@ -118,14 +134,14 @@ public class CreateEventActivity extends AppCompatActivity  implements DatePicke
         switch (currentDatePicker) {
             case START:
                 TextView startDateTextView = (TextView) findViewById(R.id.startDateText);
-                startDateTextView.setText(day + "/" + (month+1) + "/" + year );
+                startDateTextView.setText(day + "/" + (month + 1) + "/" + year);
                 currentTimePicker = START;
                 DialogFragment timeFragment = new TimePickerFragment();
                 timeFragment.show(getFragmentManager(), "startTimePicker");
                 break;
             case END:
                 TextView endDateTextView = (TextView) findViewById(R.id.endDateText);
-                endDateTextView.setText(day + "/" + (month+1) + "/" + year );
+                endDateTextView.setText(day + "/" + (month + 1) + "/" + year);
                 break;
         }
     }
