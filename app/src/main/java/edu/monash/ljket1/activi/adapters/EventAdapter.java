@@ -8,7 +8,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import edu.monash.ljket1.activi.R;
 import edu.monash.ljket1.activi.models.Event;
@@ -30,12 +34,20 @@ public class EventAdapter extends ArrayAdapter<EventInfo> {
         }
 
         TextView eventTitle = (TextView) convertView.findViewById(R.id.eventItemTitle);
-        TextView eventTime = (TextView) convertView.findViewById(R.id.eventItemTime);
+        TextView eventDateTime = (TextView) convertView.findViewById(R.id.eventItemDateTime);
         if (event != null) {
             eventTitle.setText(event.title);
-//            eventTime.setText(event.startTime + " " + event.startDate + " - " + event.endTime + " " + event.endDate);
-        }
+            SimpleDateFormat serverDateFormat = new SimpleDateFormat("ddMMyyyyhhmmss", Locale.ENGLISH);
+            try {
+                Date startDate = serverDateFormat.parse(event.startDate);
+                Date endDate = serverDateFormat.parse(event.endDate);
 
+                SimpleDateFormat viewDateFormat = new SimpleDateFormat("h:mm a EEEE d MMMM yyyy", Locale.ENGLISH);
+                eventDateTime.setText(String.format("%s - %s", viewDateFormat.format(startDate), viewDateFormat.format(endDate)));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
         return convertView;
     }
 

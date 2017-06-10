@@ -46,7 +46,7 @@ public class PrefixedEditText extends android.support.v7.widget.AppCompatEditTex
     private class TextDrawable extends Drawable {
         private String mText = "";
 
-        public TextDrawable(String text) {
+        TextDrawable(String text) {
             mText = text;
             setBounds(0, 0, (int) getPaint().measureText(mText) + 2, (int) getTextSize());
         }

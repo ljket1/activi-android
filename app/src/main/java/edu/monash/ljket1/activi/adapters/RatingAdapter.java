@@ -32,6 +32,7 @@ public class RatingAdapter extends ArrayAdapter<Rating> {
         RatingBar ratingText = (RatingBar) convertView.findViewById(R.id.ratingItemRating);
         TextView commentText = (TextView) convertView.findViewById(R.id.ratingItemComment);
         if (rating != null) {
+            ratingText.setIsIndicator(true);
             ratingText.setRating(Float.parseFloat(rating.rating));
             commentText.setText(rating.comment);
         }
