@@ -33,7 +33,7 @@ public class EventAdapter extends ArrayAdapter<EventInfo> {
         TextView eventTime = (TextView) convertView.findViewById(R.id.eventItemTime);
         if (event != null) {
             eventTitle.setText(event.title);
-            eventTime.setText(event.startTime + " " + event.startDate + " - " + event.endTime + " " + event.endDate);
+//            eventTime.setText(event.startTime + " " + event.startDate + " - " + event.endTime + " " + event.endDate);
         }
 
         return convertView;

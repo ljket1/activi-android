@@ -12,61 +12,99 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/title"
+            android:id="@+id/viewEventTitleTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textAlignment="center"
-            android:paddingTop="16dp"
             android:paddingBottom="8dp"
+            android:paddingTop="16dp"
             android:text="Basketball"
-            android:textAppearance="@android:style/TextAppearance.Material.Medium" />
-
-        <TextView
-            android:id="@+id/description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:textAlignment="center"
-            android:text="Hang out and play basketball!"/>
+            android:textAppearance="@android:style/TextAppearance.Material.Medium"
+            android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/dateTime"
+            android:id="@+id/viewEventDateTimeTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:padding="16dp"
             android:text="12:00 12/06/17 - 14:00 12/06/17"
             android:textAlignment="center" />
 
         <ImageView
-            android:id="@+id/location"
-            android:layout_width="342dp"
-            android:layout_height="192dp"
+            android:id="@+id/viewEventImageView"
+            android:layout_width="250dp"
+            android:layout_height="141dp"
+            android:layout_gravity="center"
+            android:layout_margin="8dp"
+            android:src="@drawable/ic_menu_gallery" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingEnd="8dp"
+            android:paddingStart="8dp"
+            android:text="Category: "
+            android:textAlignment="center"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/viewEventCategoryTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:textAlignment="center"
+            android:text="Sport"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingEnd="8dp"
+            android:paddingStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Description: "
+            android:textAlignment="center"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/viewEventDescriptionTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:textAlignment="center"
+            android:text="Hang out and play basketball!"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Attending:"
             android:layout_gravity="center"
             android:layout_margin="16dp"
-            android:src="@android:drawable/ic_menu_gallery" />
+            android:textStyle="bold" />
 
         <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/attendListView">
+            android:id="@+id/viewEventAttendeeListView">
 
         </ListView>
 
     </LinearLayout>
 
     <TextView
-        android:id="@+id/host"
+        android:id="@+id/viewEventHostTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:textAlignment="center"
-        android:layout_above="@+id/eventActionButton"
+        android:layout_above="@+id/viewEventActionButton"
+        android:background="#60000000"
+        android:padding="8dp"
+        android:textColor="#FFFF"
         android:text="Hosted by John Doe" />
 
     <Button
-        android:id="@+id/eventActionButton"
+        android:id="@+id/viewEventActionButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

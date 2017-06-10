@@ -14,11 +14,12 @@
         android:layout_marginEnd="8dp">
 
         <ImageView
-            android:layout_width="160dp"
-            android:layout_height="90dp"
+            android:id="@+id/createEventImageView"
+            android:layout_width="250dp"
+            android:layout_height="141dp"
             android:layout_gravity="center"
             android:layout_margin="8dp"
-            android:src="@drawable/ic_menu_gallery"/>
+            android:src="@drawable/ic_menu_gallery" />
 
         <TextView
             android:layout_width="match_parent"
@@ -26,7 +27,7 @@
             android:text="Tap image to select from gallery"
             android:textAlignment="center"
             android:textAppearance="@android:style/TextAppearance.Material.Caption"
-            android:textSize="10sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -34,7 +35,7 @@
             android:text="Event Title: " />
 
         <EditText
-            android:id="@+id/eventTitleEditText"
+            android:id="@+id/createEventTitleEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
@@ -47,7 +48,7 @@
             android:text="Description: " />
 
         <EditText
-            android:id="@+id/eventDescriptionEditText"
+            android:id="@+id/createEventDescriptionEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
@@ -59,10 +60,12 @@
             android:text="Category: " />
 
         <Spinner
-            android:id="@+id/createEventCategory"
+            android:id="@+id/createEventCategorySpinner"
+            style="@style/Base.Widget.AppCompat.Spinner.Underlined"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"/>
+            android:layout_marginBottom="8dp"
+            android:spinnerMode="dialog" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -71,17 +74,17 @@
             android:weightSum="2">
 
             <TextView
-                android:id="@+id/startDateText"
+                android:id="@+id/createEventStartDateTextView"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:paddingEnd="12dp"
                 android:paddingStart="12dp"
-                android:text="Start Date" />
+                android:text="Start" />
 
             <Button
-                android:id="@+id/startDateButton"
+                android:id="@+id/createEventStartDateButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -96,19 +99,19 @@
             android:weightSum="2">
 
             <TextView
-                android:id="@+id/startTimeText"
+                android:id="@+id/createEventEndDateTextView"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Start Time" />
+                android:text="End" />
 
             <Button
-                android:id="@+id/startTimeButton"
+                android:id="@+id/createEventEndDateButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Choose Time" />
+                android:text="Choose Date" />
         </LinearLayout>
 
         <LinearLayout
@@ -118,14 +121,16 @@
             android:weightSum="2">
 
             <TextView
+                android:id="@+id/createEventLocationTextView"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
-                android:text="Location:" />
+                android:layout_gravity="center"
+                android:text="Location" />
 
             <Button
-                android:id="@+id/eventSetLocationButton"
+                android:id="@+id/createEventLocationButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -133,18 +138,10 @@
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/createEventAddressTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:layout_marginTop="8dp"
-            android:text="81 Black Street, Melbourne" />
-
     </LinearLayout>
 
     <Button
-        android:id="@+id/eventCreateButton"
+        android:id="@+id/createEventCreateButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
