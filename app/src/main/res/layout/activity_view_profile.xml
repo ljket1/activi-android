@@ -12,14 +12,14 @@
         android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/profileImageView"
+            android:id="@+id/viewProfileImageView"
             android:layout_width="128dp"
             android:layout_height="128dp"
             android:layout_gravity="center"
             android:layout_margin="16dp"/>
 
         <TextView
-            android:id="@+id/profileNameText"
+            android:id="@+id/viewProfileNameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -27,14 +27,14 @@
             android:textAppearance="@android:style/TextAppearance.Material.Medium" />
 
         <TextView
-            android:id="@+id/profileNumberText"
+            android:id="@+id/viewProfileNumberTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="0413 504 533" />
 
         <TextView
-            android:id="@+id/profileEmailText"
+            android:id="@+id/viewProfileEmailTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -53,21 +53,21 @@
                 android:layout_weight="1"/>
 
             <ImageButton
-                android:id="@+id/profileEmailImageButton"
+                android:id="@+id/viewProfileEmailImageButton"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:src="@android:drawable/ic_dialog_email" />
 
             <ImageButton
-                android:id="@+id/profileMessageImageButton"
+                android:id="@+id/viewProfileMessageImageButton"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:src="@drawable/ic_menu_message" />
 
             <ImageButton
-                android:id="@+id/profilePhoneImageButton"
+                android:id="@+id/viewProfilePhoneImageButton"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -88,7 +88,7 @@
                 android:layout_margin="16dp"/>
 
             <ListView
-                android:id="@+id/profileRatingsListView"
+                android:id="@+id/viewProfileRatingsListView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
