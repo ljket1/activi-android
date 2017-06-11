@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.squareup.picasso.Picasso;
@@ -48,6 +49,7 @@ public class ViewEventActivity extends AppCompatActivity {
     private Event event;
     private String eventId;
     private ArrayList<ProfileInfo> attendees = new ArrayList<>();
+    private static final String IMAGE_URL = "gs://activi-86191.appspot.com/events";
 
     @BindView(R.id.viewEventTitleTextView)
     TextView title;
@@ -234,7 +236,8 @@ public class ViewEventActivity extends AppCompatActivity {
     }
 
     private void setEventImage() {
-        FirebaseStorage.getInstance().getReference(event.image).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        final StorageReference imageRef = FirebaseStorage.getInstance().getReferenceFromUrl(IMAGE_URL);
+        imageRef.child(event.image).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
                 Picasso.with(ViewEventActivity.this).load(uri).into(image);

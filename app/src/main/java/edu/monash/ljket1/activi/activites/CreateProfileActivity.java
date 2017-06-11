@@ -97,7 +97,7 @@ public class CreateProfileActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     pd.dismiss();
-                    imageUrl = Uri.parse(IMAGE_URL + FirebaseAuth.getInstance().getCurrentUser().getUid() + ".jpg");
+                    imageUrl = Uri.parse(IMAGE_URL + "/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + ".jpg");
                     try {
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
                         image.setImageBitmap(bitmap);
@@ -116,6 +116,7 @@ public class CreateProfileActivity extends AppCompatActivity {
             });
         }
     }
+
 
     @OnClick(R.id.createProfileButton)
     public void createPofile() {

@@ -153,7 +153,7 @@ public class CreateEventActivity extends AppCompatActivity implements DatePicker
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         pd.dismiss();
-                        writeEvent(IMAGE_URL + uuid + ".jpg");
+                        writeEvent(uuid + ".jpg");
                         Toast.makeText(CreateEventActivity.this, "Upload successful.", Toast.LENGTH_SHORT).show();
                     }
                 });

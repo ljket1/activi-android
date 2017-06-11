@@ -4,10 +4,9 @@
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-feature android:name="android.hardware.location.gps" />
 
-    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -18,6 +17,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".activites.MainActivity"
+            android:screenOrientation="portrait"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -26,7 +26,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activites.LoginActivity" />
+        <activity
+            android:name=".activites.LoginActivity"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -35,32 +37,42 @@
         <activity
             android:name=".activites.CreateEventActivity"
             android:label="Create Event"
-            android:parentActivityName=".activites.MainActivity" />
+            android:parentActivityName=".activites.MainActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activites.SetLocationActivity"
-            android:label="@string/title_activity_set_location" />
-        <activity android:name=".activites.ViewEventActivity" />
-        <activity android:name=".activites.ViewProfileActivity" />
+            android:label="@string/title_activity_set_location"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activites.ViewEventActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activites.ViewProfileActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activites.BarcodeActivity"
             android:label="Barcode"
-            android:parentActivityName=".activites.MainActivity" />
+            android:parentActivityName=".activites.MainActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activites.MyEventsActivity"
             android:label="My Events"
-            android:parentActivityName=".activites.MainActivity" />
+            android:parentActivityName=".activites.MainActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activites.ScanActivity"
-            android:label="Scan" />
+            android:label="Scan"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activites.NotificationsActivity"
-            android:label="Notifications" />
+            android:label="Notifications"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activites.RateActivity"
-            android:label="Rate" />
+            android:label="Rate"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activites.CreateProfileActivity"
-            android:label="Create Profile" />
+            android:label="Create Profile"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

@@ -98,7 +98,7 @@
         android:layout_gravity="center"
         android:textAlignment="center"
         android:layout_above="@+id/viewEventActionButton"
-        android:background="#60000000"
+        android:background="#6033691e"
         android:padding="8dp"
         android:textColor="#FFFF"
         android:text="Hosted by John Doe" />
