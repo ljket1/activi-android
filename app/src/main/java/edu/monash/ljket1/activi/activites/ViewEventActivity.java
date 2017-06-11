@@ -94,11 +94,15 @@ public class ViewEventActivity extends AppCompatActivity {
             getSupportActionBar().setTitle("Event Details");
         }
 
-        event = Parcels.unwrap(getIntent().getParcelableExtra("event"));
+        // Get Associated Event
         eventId = getIntent().getStringExtra("id");
+        event = Parcels.unwrap(getIntent().getParcelableExtra("event"));
 
+        // Update View
         title.setText(event.title);
         date.setText(getDateTime());
+        description.setText(event.description);
+        category.setText(event.category);
 
         // If there is no image, set it to a Google Map Preview
         if (event.image.isEmpty()) {
@@ -107,17 +111,25 @@ public class ViewEventActivity extends AppCompatActivity {
             setEventImage();
         }
 
-        description.setText(event.description);
-        category.setText(event.category);
-
+        // Get Attending List from DB
         loadAttendees();
+
+        // Get Host Information from DB
         loadHost();
+
+        // Update Button View
         configureButton();
     }
 
+    /**
+     * configureButton()
+     * Change button to Scan if User hosts the event
+     * Change button to Contact if User wants to attend event
+     */
     private void configureButton() {
         if (Objects.equals(FirebaseAuth.getInstance().getCurrentUser().getUid(), event.host)) {
             action.setText(R.string.scan);
+            // Open up ZXing Scanner
             action.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -130,6 +142,7 @@ public class ViewEventActivity extends AppCompatActivity {
             });
         } else {
             action.setText(R.string.contact);
+            // Goto Host Profile
             action.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -141,6 +154,10 @@ public class ViewEventActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * loadHost()
+     * Loads host profile from the DB
+     */
     private void loadHost() {
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("users").child(event.host);
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -155,6 +172,10 @@ public class ViewEventActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * loadAttendees()
+     * Loads attendee data from the DB
+     */
     private void loadAttendees() {
         final ArrayList<String> userIds = new ArrayList<>();
         DatabaseReference attendence = FirebaseDatabase.getInstance().getReference("events").child(eventId).child("attend");
@@ -193,9 +214,11 @@ public class ViewEventActivity extends AppCompatActivity {
                     IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
                     final String user = result.getContents();
 
+                    // Add Scanned User to the Attending List
                     DatabaseReference eventAttendance = FirebaseDatabase.getInstance().getReference("events").child(eventId).child("attend").child(user);
                     eventAttendance.setValue("true");
 
+                    // Create a Notification for the Attending User
                     DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(event.host);
                     userRef.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -216,6 +239,10 @@ public class ViewEventActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * getAttendees()
+     *
+     */
     private void getAttendees(final ArrayList<String> userIds) {
         DatabaseReference users = FirebaseDatabase.getInstance().getReference("users");
         users.addValueEventListener(new ValueEventListener() {
@@ -247,6 +274,10 @@ public class ViewEventActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * setEventImage()
+     * Set image to user defined Profile Image
+     */
     private void setEventImage() {
         final StorageReference imageRef = FirebaseStorage.getInstance().getReferenceFromUrl(IMAGE_URL);
         imageRef.child(event.image).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -257,6 +288,10 @@ public class ViewEventActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * setGoogleMapImage()
+     * Set image to Google Map Preview
+     */
     private void setGoogleMapImage() {
         String url = "https://maps.googleapis.com/maps/api/staticmap?" +
                 "center=" + event.latitude + "," + event.longitude +
@@ -268,6 +303,10 @@ public class ViewEventActivity extends AppCompatActivity {
         Picasso.with(this).load(url).into(image);
     }
 
+    /**
+     * getDateTime()
+     *
+     */
     private String getDateTime() {
         String dateString = "";
         SimpleDateFormat serverDateFormat = new SimpleDateFormat("ddMMyyyyhhmmss", Locale.ENGLISH);
@@ -283,7 +322,10 @@ public class ViewEventActivity extends AppCompatActivity {
         }
         return dateString;
     }
-
+    /**
+     * checkPermission()
+     * Checks the app has Camera Permissions
+     */
     public static boolean checkPermission(Context context) {
         int result = ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA);
         if (result == PackageManager.PERMISSION_GRANTED) {
@@ -293,7 +335,10 @@ public class ViewEventActivity extends AppCompatActivity {
 
         }
     }
-
+    /**
+     * requestPermission()
+     * Requests Camera Permission from the User
+     */
     public static void requestPermission(Activity activity , int code) {
             ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.CAMERA}, code);
     }
@@ -313,6 +358,10 @@ public class ViewEventActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * showFailPermissionDialog()
+     * Show an Alert Dialog informing the user about permissions
+     */
     private void showFailPermissionDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Activi needs this permission to function!");

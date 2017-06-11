@@ -32,6 +32,7 @@ public class NotificationsActivity extends AppCompatActivity {
 
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
+        // Load Notifications from DB
         DatabaseReference notificationsReference = FirebaseDatabase.getInstance().getReference("users").child(userId).child("notifications");
         notificationsReference.addValueEventListener(new ValueEventListener() {
             @Override

@@ -39,6 +39,7 @@ public class SetLocationActivity extends FragmentActivity implements OnMapReadyC
                 .findFragmentById(R.id.setLocationMap);
         mapFragment.getMapAsync(this);
 
+        // Set Location and send Lat and Lng to Create Event Activity
         Button setLocationButton = (Button) findViewById(R.id.setLocationButton);
         setLocationButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,9 +57,9 @@ public class SetLocationActivity extends FragmentActivity implements OnMapReadyC
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        mMap.setMinZoomPreference(13.0f);
         mMap.moveCamera(CameraUpdateFactory.zoomTo(16.0f));
 
+        // Update Lat and Lng on the view
         mMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
             @Override
             public void onCameraMove() {
@@ -67,12 +68,14 @@ public class SetLocationActivity extends FragmentActivity implements OnMapReadyC
             }
         });
 
+        // Update View Address
         mMap.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
             @Override
             public void onCameraIdle() {
                 TextView textView = (TextView) findViewById(R.id.setLocationText);
                 mPosition = mMap.getCameraPosition().target;
                 try {
+                    // Get Address from LatLng
                     Geocoder geo = new Geocoder(getApplicationContext(), Locale.getDefault());
                     List<Address> addresses = geo.getFromLocation(mPosition.latitude, mPosition.longitude, 1);
                     if (addresses.size() > 0) {
@@ -84,12 +87,18 @@ public class SetLocationActivity extends FragmentActivity implements OnMapReadyC
             }
         });
 
+        // Default to Melbourne
         LatLng pos = new LatLng(-37.8136, 144.9631);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(pos));
-        
+
+        // Get Location
         getLocation();
     }
 
+    /**
+     * getLocation()
+     * Request the users location
+     */
     private void getLocation() {
         try {
             LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -101,6 +110,7 @@ public class SetLocationActivity extends FragmentActivity implements OnMapReadyC
 
     @Override
     public void onLocationChanged(Location location) {
+        // Update Map Camera Position
         LatLng pos = new LatLng(location.getLatitude(), location.getLongitude());
         mMap.moveCamera(CameraUpdateFactory.newLatLng(pos));
     }

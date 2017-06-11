@@ -48,6 +48,11 @@ import edu.monash.ljket1.activi.models.Event;
 
 public class CreateEventActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
+    /**
+     * https://firebase.google.com/docs/database/android/read-and-write
+     * https://www.simplifiedcoding.net/firebase-realtime-database-crud/
+     */
+
     // Request Codes
     public final static int LOCATION_REQUEST_CODE = 1;
     public final static int GALLERY_REQUEST_CODE = 2;
@@ -179,6 +184,10 @@ public class CreateEventActivity extends AppCompatActivity implements DatePicker
         startActivityForResult(Intent.createChooser(intent, "Select Image"), GALLERY_REQUEST_CODE);
     }
 
+    /**
+     * writeEvent()
+     * Writes Event to DB
+     */
     private void writeEvent(String url) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyyyyhhmmss", Locale.ENGLISH);
         Event event = new Event(
@@ -191,6 +200,10 @@ public class CreateEventActivity extends AppCompatActivity implements DatePicker
         finish();
     }
 
+    /**
+     * validate()
+     * returns True or False if the profile data is valid
+     */
     private boolean validate() {
         boolean valid = true;
         String titleString = title.getText().toString();

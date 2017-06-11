@@ -14,6 +14,10 @@ import edu.monash.ljket1.activi.R;
 
 public class BarcodeActivity extends AppCompatActivity {
 
+    /**
+     * http://www.mysamplecode.com/2012/09/android-generate-qr-code-using-zxing.html
+     */
+
     public static int white = 0xFFFFFFFF;
     public static int black = 0xFF000000;
     public final static int WIDTH=500;

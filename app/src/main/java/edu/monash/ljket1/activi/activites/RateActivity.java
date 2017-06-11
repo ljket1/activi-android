@@ -61,6 +61,7 @@ public class RateActivity extends AppCompatActivity {
         profileId = getIntent().getStringExtra("profileId");
         notificationId = getIntent().getStringExtra("notificationId");
 
+        // Load Profile from DB
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(profileId);
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

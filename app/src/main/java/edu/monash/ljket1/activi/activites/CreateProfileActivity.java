@@ -36,6 +36,11 @@ import edu.monash.ljket1.activi.widgets.PrefixedEditText;
 
 public class CreateProfileActivity extends AppCompatActivity {
 
+    /**
+     * https://firebase.google.com/docs/database/android/read-and-write
+     * https://www.simplifiedcoding.net/firebase-realtime-database-crud/
+     */
+
     @BindView(R.id.createProfileImageView)
     ImageView image;
 
@@ -79,6 +84,10 @@ public class CreateProfileActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * loadFromGoogle()
+     * Populate View with Google Data
+     */
     private void loadFromGoogle() {
         // Load the default data from the user's Google Account
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -91,6 +100,10 @@ public class CreateProfileActivity extends AppCompatActivity {
         email.setText(currentUser.getEmail());
     }
 
+    /**
+     * loadFromProfile()
+     * Populate View with Profile Data
+     */
     private void loadFromProfile() {
         // Image
         if (profile.image.contains("gs://")) {
@@ -171,6 +184,10 @@ public class CreateProfileActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * writeProfile()
+     * Write profile to DB
+     */
     private void writeProfile() {
         Profile profile = new Profile(
                 name.getText().toString(),

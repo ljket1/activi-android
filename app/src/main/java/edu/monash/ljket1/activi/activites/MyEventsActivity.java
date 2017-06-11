@@ -34,6 +34,7 @@ public class MyEventsActivity extends AppCompatActivity {
 
         String userId = getIntent().getStringExtra("id");
 
+        // Load Event from the DB
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("events");
         Query query =  mDatabase.orderByChild("host").equalTo(userId);
         query.addListenerForSingleValueEvent(new ValueEventListener() {

@@ -69,18 +69,18 @@ import edu.monash.ljket1.activi.models.domain.EventInfo;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener, OnMapReadyCallback, LocationListener {
 
-    // Firebase instance variables
-    private FirebaseAuth mFirebaseAuth;
-    private FirebaseUser mFirebaseUser;
-
-    private GoogleApiClient mGoogleApiClient;
+    // Google
     private GoogleMap mMap;
+    private GoogleApiClient mGoogleApiClient;
 
+    // Nav View
     private NavigationView navigationView;
 
-    private static final String IMAGE_URL = "gs://activi-86191.appspot.com/profiles";
+    // Permissions Handling
     private static final int PERMISSION_REQUEST_CODE = 1;
-    private Location currentLocation;
+
+    // Firebase Storage
+    private static final String IMAGE_URL = "gs://activi-86191.appspot.com/profiles";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,9 +89,8 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mFirebaseAuth = FirebaseAuth.getInstance();
-        mFirebaseUser = mFirebaseAuth.getCurrentUser();
-        if (mFirebaseUser == null) {
+        // If not authenticated, goto Sign In page
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             startActivity(new Intent(this, LoginActivity.class));
             finish();
             return;
@@ -100,23 +99,28 @@ public class MainActivity extends AppCompatActivity
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        // Populate View
         loadProfile();
 
+        // Auth
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API)
                 .build();
 
+        // Map Fragment
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        // Create Event Button
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getBaseContext(), CreateEventActivity.class);
-                intent.putExtra("id", mFirebaseUser.getUid());
+                // Put User Event on Intent
+                intent.putExtra("id", FirebaseAuth.getInstance().getCurrentUser().getUid());
                 startActivity(intent);
             }
         });
@@ -127,10 +131,12 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        DatabaseReference notifications = FirebaseDatabase.getInstance().getReference("users").child(mFirebaseUser.getUid()).child("notifications");
+        // Load Notifications
+        DatabaseReference notifications = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("notifications");
         notifications.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                // Notification Counter
                 TextView counter = (TextView) navigationView.getMenu().findItem(R.id.nav_notifications).getActionView();
                 counter.setGravity(Gravity.CENTER_VERTICAL);
                 counter.setTypeface(null, Typeface.BOLD);
@@ -144,6 +150,10 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
+    /**
+     * getLocation()
+     * Request the users location
+     */
     private void getLocation() {
         if (!checkPermission(getBaseContext())) {
             requestPermission(this, PERMISSION_REQUEST_CODE);
@@ -157,8 +167,10 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+
     @Override
     public void onBackPressed() {
+        // Close the drawer if it's opened
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -177,11 +189,13 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            // Signs out of Auth Account
             case R.id.action_sign_out:
-                mFirebaseAuth.signOut();
+                FirebaseAuth.getInstance().signOut();
                 Auth.GoogleSignInApi.signOut(mGoogleApiClient);
                 startActivity(new Intent(this, LoginActivity.class));
                 return true;
+            // Shows the about page
             case R.id.action_about:
                 startActivity(new Intent(this, AboutActivity.class));
                 return true;
@@ -193,27 +207,32 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            // Goto User's Profile
             case R.id.nav_profile:
                 Intent profileIntent = new Intent(getBaseContext(), ViewProfileActivity.class);
-                profileIntent.putExtra("id", mFirebaseUser.getUid());
+                profileIntent.putExtra("id", FirebaseAuth.getInstance().getCurrentUser().getUid());
                 startActivity(profileIntent);
                 break;
+            // Goto User's Notification
             case R.id.nav_notifications:
                 Intent notificationsIntent = new Intent(getBaseContext(), NotificationsActivity.class);
                 startActivity(notificationsIntent);
                 break;
+            // Goto User's Events
             case R.id.nav_events:
                 Intent eventIntent = new Intent(getBaseContext(), MyEventsActivity.class);
-                eventIntent.putExtra("id", mFirebaseUser.getUid());
+                eventIntent.putExtra("id", FirebaseAuth.getInstance().getCurrentUser().getUid());
                 startActivity(eventIntent);
                 break;
+            // Goto User's Barcode
             case R.id.nav_barcode:
                 Intent barcodeIntent = new Intent(getBaseContext(), BarcodeActivity.class);
-                barcodeIntent.putExtra("id", mFirebaseUser.getUid());
+                barcodeIntent.putExtra("id", FirebaseAuth.getInstance().getCurrentUser().getUid());
                 startActivity(barcodeIntent);
                 break;
         }
 
+        // Close the Drawer after selecting an option
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -221,16 +240,18 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
+        // Do nothing
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+        // Handle Clicking Marker Info Window
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
+                // Goto Associated Event
                 EventInfo event = (EventInfo) marker.getTag();
                 Intent intent = new Intent(getBaseContext(), ViewEventActivity.class);
 
@@ -240,23 +261,28 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        mMap.setMinZoomPreference(13.0f);
+        // Zoom into the Map
         mMap.moveCamera(CameraUpdateFactory.zoomTo(16.0f));
 
+        // Default to Melbourne
         LatLng pos = new LatLng(-37.8136, 144.9631);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(pos));
 
+        // Get Location
         getLocation();
 
+        // Populate Map with Markers
         DatabaseReference events = FirebaseDatabase.getInstance().getReference("events");
         events.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                // Update Map data when Database changes
                 mMap.clear();
                 for (DataSnapshot eventSnapshot : dataSnapshot.getChildren()) {
                     Event event = eventSnapshot.getValue(Event.class);
                     Bitmap bitmap = drawableToBitmap(getDrawable(R.drawable.ic_map_location));
                     LatLng eventLatLng = new LatLng(Double.parseDouble(event.latitude), Double.parseDouble(event.longitude));
+                    // Customise Marker
                     Marker marker = mMap.addMarker(
                             new MarkerOptions().position(eventLatLng)
                                     .title(event.title)
@@ -273,6 +299,11 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
+    /**
+     * drawableToBitmap()
+     * Converts drawable to bitmap
+     * https://stackoverflow.com/questions/3035692/how-to-convert-a-drawable-to-a-bitmap
+     */
     private static Bitmap drawableToBitmap(Drawable drawable) {
         Bitmap bitmap;
 
@@ -295,12 +326,16 @@ public class MainActivity extends AppCompatActivity
         return bitmap;
     }
 
+    /**
+     * loadProfile()
+     * Loads profile from DB and updates view
+     */
     private void loadProfile() {
         DatabaseReference profileRef = FirebaseDatabase.getInstance().getReference("users");
         profileRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if (!dataSnapshot.hasChild(mFirebaseUser.getUid())) {
+                if (!dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
                     startActivity(new Intent(getBaseContext(), CreateProfileActivity.class));
                     finish();
                 } else {
@@ -333,6 +368,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onLocationChanged(Location location) {
+        // Update the Map Camera Position
         LatLng pos = new LatLng(location.getLatitude(), location.getLongitude());
         mMap.moveCamera(CameraUpdateFactory.newLatLng(pos));
     }
@@ -352,11 +388,19 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    /**
+     * checkPermission()
+     * Checks the app has Location Permissions
+     */
     public static boolean checkPermission(Context context) {
         int result = ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION);
         return result == PackageManager.PERMISSION_GRANTED;
     }
 
+    /**
+     * requestPermission()
+     * Requests Location Permission from the User
+     */
     public static void requestPermission(Activity activity, int code) {
         ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, code);
     }
@@ -366,8 +410,10 @@ public class MainActivity extends AppCompatActivity
         switch (requestCode) {
             case PERMISSION_REQUEST_CODE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Update Map Camera Location
                     getLocation();
                 } else {
+                    // Inform the User the Location is needed
                     showFailPermissionDialog();
                 }
                 break;
@@ -376,6 +422,10 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * showFailPermissionDialog()
+     * Show an Alert Dialog informing the user about permissions
+     */
     private void showFailPermissionDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Activi needs this permission to function!");

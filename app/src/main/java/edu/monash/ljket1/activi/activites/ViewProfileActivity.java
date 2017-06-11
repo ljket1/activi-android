@@ -68,15 +68,17 @@ public class ViewProfileActivity extends AppCompatActivity {
             getSupportActionBar().setTitle("Profile");
         }
 
+        // Get Profile Id to load
         profileId = getIntent().getStringExtra("id");
 
+        // Load Profile Data from DB and populate View
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("users").child(profileId);
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 profile = dataSnapshot.getValue(Profile.class);
-
+                // Load Image
                 if (profile.image.contains("gs://")) {
                     StorageReference imageRef = FirebaseStorage.getInstance().getReferenceFromUrl(IMAGE_URL);
                     imageRef.child(profile.image.replace(IMAGE_URL, "")).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -89,6 +91,7 @@ public class ViewProfileActivity extends AppCompatActivity {
                     Picasso.with(ViewProfileActivity.this).load(profile.image).into(image);
                 }
 
+                // Update View with data
                 name.setText(profile.name);
                 number.setText("+61" + profile.phone);
                 email.setText(profile.email);
@@ -99,6 +102,8 @@ public class ViewProfileActivity extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
             }
         });
+
+        // Load Ratings Data and add to List
         mDatabase = FirebaseDatabase.getInstance().getReference("users").child(profileId).child("ratings");
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -116,6 +121,9 @@ public class ViewProfileActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Call User
+     */
     @OnClick(R.id.viewProfilePhoneImageButton)
     public void phone() {
         Intent intent = new Intent(Intent.ACTION_DIAL);
@@ -123,6 +131,9 @@ public class ViewProfileActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * Message User
+     */
     @OnClick(R.id.viewProfileMessageImageButton)
     public void message() {
         Intent intent = new Intent(Intent.ACTION_SENDTO);
@@ -130,6 +141,9 @@ public class ViewProfileActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * Email User
+     */
     @OnClick(R.id.viewProfileEmailImageButton)
     public void email() {
         Intent intent = new Intent(Intent.ACTION_SENDTO);
@@ -139,6 +153,7 @@ public class ViewProfileActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        // If User's Account, allow the ability to Edit
         if (Objects.equals(profileId, FirebaseAuth.getInstance().getCurrentUser().getUid())) {
             getMenuInflater().inflate(R.menu.edit, menu);
             return true;
@@ -152,6 +167,7 @@ public class ViewProfileActivity extends AppCompatActivity {
             case android.R.id.home:
                 finish();
                 return true;
+            // Goto Edit Profile Page
             case R.id.action_edit:
                 Intent intent = new Intent(this, CreateProfileActivity.class);
                 intent.putExtra("profile", Parcels.wrap(profile));

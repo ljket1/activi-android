@@ -25,6 +25,10 @@ import edu.monash.ljket1.activi.R;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
 
+    /**
+     * https://firebase.google.com/docs/auth/android/google-signin
+     */
+
     private GoogleApiClient mGoogleApiClient;
     private static final int SIGN_IN_REQUEST_CODE = 9001;
 
