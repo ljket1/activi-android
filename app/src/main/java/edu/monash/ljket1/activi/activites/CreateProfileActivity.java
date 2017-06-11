@@ -23,6 +23,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import org.parceler.Parcels;
+
 import java.util.regex.Pattern;
 
 import butterknife.BindView;
@@ -48,6 +50,8 @@ public class CreateProfileActivity extends AppCompatActivity {
 
     ProgressDialog pd;
     Uri imageUrl;
+    Uri localImage;
+    Profile profile;
 
     private static final int IMAGE_REQUEST_CODE = 9001;
     private static final String IMAGE_URL = "gs://activi-86191.appspot.com/profiles";
@@ -66,6 +70,16 @@ public class CreateProfileActivity extends AppCompatActivity {
         pd = new ProgressDialog(this);
         pd.setMessage("Uploading...");
 
+        profile = Parcels.unwrap(getIntent().getParcelableExtra("profile"));
+        if (profile != null) {
+            loadFromProfile();
+
+        } else {
+            loadFromGoogle();
+        }
+    }
+
+    private void loadFromGoogle() {
         // Load the default data from the user's Google Account
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         // Image
@@ -75,6 +89,28 @@ public class CreateProfileActivity extends AppCompatActivity {
         name.setText(currentUser.getDisplayName());
         // Email
         email.setText(currentUser.getEmail());
+    }
+
+    private void loadFromProfile() {
+        // Image
+        if (profile.image.contains("gs://")) {
+            StorageReference imageRef = FirebaseStorage.getInstance().getReferenceFromUrl(IMAGE_URL);
+            imageRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid() + ".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    Picasso.with(CreateProfileActivity.this).load(uri).into(image);
+                }
+            });
+        } else {
+            Picasso.with(CreateProfileActivity.this).load(profile.image).into(image);
+        }
+        Picasso.with(this).load(imageUrl).into(image);
+        // Name
+        name.setText(profile.name);
+        //Number
+        number.setText(profile.phone);
+        // Email
+        email.setText(profile.email);
     }
 
     @OnClick(R.id.createProfileImageView)
@@ -89,31 +125,13 @@ public class CreateProfileActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == IMAGE_REQUEST_CODE && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            pd.show();
-
-            StorageReference imageRef = FirebaseStorage.getInstance().getReferenceFromUrl(IMAGE_URL).child(FirebaseAuth.getInstance().getCurrentUser().getUid() + ".jpg");
-            UploadTask uploadTask = imageRef.putFile(data.getData());
-            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    pd.dismiss();
-                    imageUrl = Uri.parse(IMAGE_URL + "/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + ".jpg");
-                    try {
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
-                        image.setImageBitmap(bitmap);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    Toast.makeText(CreateProfileActivity.this, "Upload successful.", Toast.LENGTH_SHORT).show();
-                }
-            });
-            uploadTask.addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    pd.dismiss();
-                    Toast.makeText(CreateProfileActivity.this,"Upload Failed -> " + e, Toast.LENGTH_SHORT).show();
-                }
-            });
+            localImage = data.getData();
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), localImage);
+                image.setImageBitmap(bitmap);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -121,17 +139,47 @@ public class CreateProfileActivity extends AppCompatActivity {
     @OnClick(R.id.createProfileButton)
     public void createPofile() {
         if (validate()) {
-            Profile profile = new Profile(
-                    name.getText().toString(),
-                    email.getText().toString(),
-                    number.getText().toString(),
-                    imageUrl.toString()
-            );
-            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-            mDatabase.setValue(profile);
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
+            if (localImage != null) {
+                pd.show();
+                StorageReference imageRef = FirebaseStorage.getInstance().getReferenceFromUrl(IMAGE_URL).child(FirebaseAuth.getInstance().getCurrentUser().getUid() + ".jpg");
+                UploadTask uploadTask = imageRef.putFile(localImage);
+                uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        pd.dismiss();
+                        imageUrl = Uri.parse(IMAGE_URL + "/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + ".jpg");
+                        writeProfile();
+                        startActivity(new Intent(CreateProfileActivity.this, MainActivity.class));
+                        finish();
+                        Toast.makeText(CreateProfileActivity.this, "Upload successful.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                uploadTask.addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        pd.dismiss();
+                        Toast.makeText(CreateProfileActivity.this,"Upload Failed -> " + e, Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+            } else {
+                writeProfile();
+                startActivity(new Intent(this, MainActivity.class));
+                finish();
+            }
+
         }
+    }
+
+    private void writeProfile() {
+        Profile profile = new Profile(
+                name.getText().toString(),
+                email.getText().toString(),
+                number.getText().toString(),
+                imageUrl.toString()
+        );
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        mDatabase.setValue(profile);
     }
 
     /**

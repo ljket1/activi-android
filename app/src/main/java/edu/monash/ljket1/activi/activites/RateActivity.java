@@ -1,5 +1,6 @@
 package edu.monash.ljket1.activi.activites;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +18,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
@@ -43,6 +45,8 @@ public class RateActivity extends AppCompatActivity {
     private String profileId;
     private String notificationId;
 
+    private static final String IMAGE_URL = "gs://activi-86191.appspot.com/profiles";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +67,8 @@ public class RateActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Profile profile = dataSnapshot.getValue(Profile.class);
                 if (profile.image.contains("gs://")) {
-                    FirebaseStorage.getInstance().getReference(profile.image).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    StorageReference imageRef = FirebaseStorage.getInstance().getReferenceFromUrl(IMAGE_URL);
+                    imageRef.child(profile.image.replace(IMAGE_URL, "")).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
                             Picasso.with(RateActivity.this).load(uri).into(image);
@@ -104,6 +109,6 @@ public class RateActivity extends AppCompatActivity {
         // Delete Notification
         DatabaseReference notificationRef = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("notifications").child(notificationId);
         notificationRef.setValue(null);
-        finish();
+        startActivity(new Intent(this, MainActivity.class));
     }
 }

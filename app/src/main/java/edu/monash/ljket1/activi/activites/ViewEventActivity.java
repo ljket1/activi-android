@@ -1,9 +1,16 @@
 package edu.monash.ljket1.activi.activites;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
@@ -46,6 +53,7 @@ import edu.monash.ljket1.activi.models.domain.ProfileInfo;
 
 public class ViewEventActivity extends AppCompatActivity {
 
+    private static final int PERMISSION_REQUEST_CODE = 1;
     private Event event;
     private String eventId;
     private ArrayList<ProfileInfo> attendees = new ArrayList<>();
@@ -109,15 +117,19 @@ public class ViewEventActivity extends AppCompatActivity {
 
     private void configureButton() {
         if (Objects.equals(FirebaseAuth.getInstance().getCurrentUser().getUid(), event.host)) {
-            action.setText("Scan");
+            action.setText(R.string.scan);
             action.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new IntentIntegrator(ViewEventActivity.this).initiateScan();
+                    if (!checkPermission(getBaseContext())) {
+                        requestPermission(ViewEventActivity.this, PERMISSION_REQUEST_CODE);
+                    } else {
+                        new IntentIntegrator(ViewEventActivity.this).initiateScan();
+                    }
                 }
             });
         } else {
-            action.setText("Contact");
+            action.setText(R.string.contact);
             action.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -270,5 +282,51 @@ public class ViewEventActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         return dateString;
+    }
+
+    public static boolean checkPermission(Context context) {
+        int result = ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA);
+        if (result == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        } else {
+            return false;
+
+        }
+    }
+
+    public static void requestPermission(Activity activity , int code) {
+            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.CAMERA}, code);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    new IntentIntegrator(ViewEventActivity.this).initiateScan();
+                } else {
+                    showFailPermissionDialog();
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void showFailPermissionDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Activi needs this permission to function!");
+
+        builder.setPositiveButton(
+                "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                        finish();
+                    }
+                });
+
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 }

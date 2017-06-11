@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -20,7 +21,10 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,6 +53,7 @@ public class ViewProfileActivity extends AppCompatActivity {
     ListView ratings;
 
     private Profile profile;
+    private String profileId;
     private ArrayList<Rating> mRatings = new ArrayList<>();
     private static final String IMAGE_URL = "gs://activi-86191.appspot.com/profiles";
 
@@ -63,7 +68,7 @@ public class ViewProfileActivity extends AppCompatActivity {
             getSupportActionBar().setTitle("Profile");
         }
 
-        final String profileId = getIntent().getStringExtra("id");
+        profileId = getIntent().getStringExtra("id");
 
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("users").child(profileId);
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -73,8 +78,8 @@ public class ViewProfileActivity extends AppCompatActivity {
                 profile = dataSnapshot.getValue(Profile.class);
 
                 if (profile.image.contains("gs://")) {
-                    final StorageReference imageRef = FirebaseStorage.getInstance().getReferenceFromUrl(IMAGE_URL);
-                    imageRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid() + ".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    StorageReference imageRef = FirebaseStorage.getInstance().getReferenceFromUrl(IMAGE_URL);
+                    imageRef.child(profile.image.replace(IMAGE_URL, "")).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
                             Picasso.with(ViewProfileActivity.this).load(uri).into(image);
@@ -85,7 +90,7 @@ public class ViewProfileActivity extends AppCompatActivity {
                 }
 
                 name.setText(profile.name);
-                number.setText(profile.phone);
+                number.setText("+61" + profile.phone);
                 email.setText(profile.email);
 
             }
@@ -114,15 +119,14 @@ public class ViewProfileActivity extends AppCompatActivity {
     @OnClick(R.id.viewProfilePhoneImageButton)
     public void phone() {
         Intent intent = new Intent(Intent.ACTION_DIAL);
-        intent.setData(Uri.parse("tel:" + profile.phone));
+        intent.setData(Uri.parse("tel:+61" + profile.phone));
         startActivity(intent);
     }
 
     @OnClick(R.id.viewProfileMessageImageButton)
     public void message() {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setType("vnd.android-dir/mms-sms");
-        intent.putExtra("address", profile.phone);
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("smsto:" + Uri.encode("+61" + profile.phone)));
         startActivity(intent);
     }
 
@@ -134,10 +138,24 @@ public class ViewProfileActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (Objects.equals(profileId, FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+            getMenuInflater().inflate(R.menu.edit, menu);
+            return true;
+        }
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
+                return true;
+            case R.id.action_edit:
+                Intent intent = new Intent(this, CreateProfileActivity.class);
+                intent.putExtra("profile", Parcels.wrap(profile));
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
