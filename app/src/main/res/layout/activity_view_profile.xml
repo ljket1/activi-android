@@ -24,7 +24,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="John Doe"
-            android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+            android:textAppearance="@android:style/TextAppearance.Material.Medium"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/viewProfileNumberTextView"
@@ -55,8 +56,10 @@
             <ImageButton
                 android:id="@+id/viewProfileEmailImageButton"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="48dp"
                 android:layout_weight="1"
+                android:layout_margin="2dp"
+                android:background="@color/colorPrimary"
                 android:src="@android:drawable/ic_dialog_email" />
 
             <ImageButton
@@ -64,6 +67,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:layout_margin="2dp"
+                android:background="@color/colorPrimary"
                 android:src="@drawable/ic_menu_message" />
 
             <ImageButton
@@ -71,6 +76,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:layout_margin="2dp"
+                android:background="@color/colorPrimary"
                 android:src="@android:drawable/ic_menu_call" />
 
         </LinearLayout>

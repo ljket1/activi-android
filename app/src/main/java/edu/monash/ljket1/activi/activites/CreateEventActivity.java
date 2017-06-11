@@ -7,6 +7,8 @@ import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -29,8 +31,10 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -167,12 +171,20 @@ public class CreateEventActivity extends AppCompatActivity implements DatePicker
         }
     }
 
+    @OnClick(R.id.createEventImageView)
+    public void choose() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_PICK);
+        startActivityForResult(Intent.createChooser(intent, "Select Image"), GALLERY_REQUEST_CODE);
+    }
+
     private void writeEvent(String url) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyyyyhhmmss", Locale.ENGLISH);
         Event event = new Event(
                 title.getText().toString(), description.getText().toString(),
                 eventLong, eventLat, dateFormat.format(eventStart.getTime()),
-                dateFormat.format(eventEnd.getTime()), userId, category.toString(), url
+                dateFormat.format(eventEnd.getTime()), userId, category.getSelectedItem().toString(), url
         );
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("events").push();
         mDatabase.setValue(event);
@@ -191,7 +203,7 @@ public class CreateEventActivity extends AppCompatActivity implements DatePicker
             description.setError("Must be a valid description!");
             valid = false;
         }
-        if (!(startDate.getText() == START) || !(endDate.getText() == END)) {
+        if ((startDate.getText() == START) || (endDate.getText() == END)) {
             Toast.makeText(this, "Please select valid date!", Toast.LENGTH_SHORT).show();
             valid = false;
         }
@@ -244,6 +256,14 @@ public class CreateEventActivity extends AppCompatActivity implements DatePicker
                 if (resultCode == Activity.RESULT_OK) {
                     eventLat = data.getStringExtra("latitude");
                     eventLong = data.getStringExtra("longitude");
+                    try {
+                        Geocoder geo = new Geocoder(getApplicationContext(), Locale.getDefault());
+                        List<Address> addresses = geo.getFromLocation(Double.parseDouble(eventLat), Double.parseDouble(eventLong), 1);
+                        location.setText(addresses.get(0).getAddressLine(0));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
                 }
                 break;
             case GALLERY_REQUEST_CODE:

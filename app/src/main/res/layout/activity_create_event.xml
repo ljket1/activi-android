@@ -88,7 +88,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Choose Date" />
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:text="Choose Date"
+                android:textColor="@android:color/white" />
 
         </LinearLayout>
 
@@ -111,7 +113,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Choose Date" />
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:text="Choose Date"
+                android:textColor="@android:color/white" />
         </LinearLayout>
 
         <LinearLayout
@@ -134,7 +138,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Set Location" />
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:text="Set Location"
+                android:textColor="@android:color/white" />
 
         </LinearLayout>
 
@@ -145,6 +151,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:text="Create" />
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:elevation="0dp"
+        android:text="Create"
+        android:textColor="@android:color/white" />
 
 </RelativeLayout>

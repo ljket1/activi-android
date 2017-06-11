@@ -24,10 +24,11 @@
             android:id="@+id/rateProfileNameTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
             android:padding="16dp"
             android:text="Liam Ketchup"
-            android:textAppearance="@android:style/TextAppearance.Material.Large" />
+            android:textAlignment="center"
+            android:textAppearance="@android:style/TextAppearance.Material.Large"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="match_parent"
@@ -62,7 +63,9 @@
         android:id="@+id/rateRateButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:backgroundTint="@color/colorPrimaryDark"
         android:text="Rate"
-        android:layout_alignParentBottom="true"/>
+        android:textColor="@android:color/white" />
 
 </RelativeLayout>

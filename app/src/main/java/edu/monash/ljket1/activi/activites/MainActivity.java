@@ -219,7 +219,7 @@ public class MainActivity extends AppCompatActivity
                 mMap.clear();
                 for (DataSnapshot eventSnapshot : dataSnapshot.getChildren()) {
                     Event event = eventSnapshot.getValue(Event.class);
-                    LatLng eventLatLng = new LatLng(Double.parseDouble(event.longitude), Double.parseDouble(event.latitude));
+                    LatLng eventLatLng = new LatLng(Double.parseDouble(event.latitude), Double.parseDouble(event.longitude));
                     Marker marker = mMap.addMarker(new MarkerOptions().position(eventLatLng).title(event.title));
                     marker.setTag(new EventInfo(eventSnapshot.getKey(), event));
                 }

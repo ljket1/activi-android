@@ -2,6 +2,7 @@ package edu.monash.ljket1.activi.activites;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
@@ -12,12 +13,14 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.squareup.picasso.Picasso;
@@ -231,16 +234,21 @@ public class ViewEventActivity extends AppCompatActivity {
     }
 
     private void setEventImage() {
-
+        FirebaseStorage.getInstance().getReference(event.image).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.with(ViewEventActivity.this).load(uri).into(image);
+            }
+        });
     }
 
     private void setGoogleMapImage() {
         String url = "https://maps.googleapis.com/maps/api/staticmap?" +
-                "center=" + event.longitude + "," + event.latitude +
+                "center=" + event.latitude + "," + event.longitude +
                 "&zoom=18" +
                 "&size=250x141" +
                 "&scale=2" +
-                "&markers=color:red%7C" + event.longitude + "," + event.latitude +
+                "&markers=color:red%7C" + event.latitude + "," + event.longitude +
                 "&key=AIzaSyCg35ph81jkmUZRZ6r6HLc5ldQTUIWW3GY";
         Picasso.with(this).load(url).into(image);
     }
